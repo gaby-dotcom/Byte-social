@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Packages — Byte Social</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dark:#0D1117; --dark2:#161B22; --dark3:#1E2530;
+      --blue:#1DA1F2; --blue-dark:#0d8fd9;
+      --green:#27AE60; --gold:#D4A017;
+      --white:#FFFFFF; --off-white:#F0F4F8;
+      --gray:#A0AAB9; --text:#1A1A2E;
+      --light-bg:#F7F9FC;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:72px;background:rgba(13,17,23,0.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);}
+    .nav-logo{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--white);letter-spacing:-0.5px;}
+    .nav-logo span{color:var(--blue);}
+    .nav-links{display:flex;gap:2rem;align-items:center;}
+    .nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--white);}
+    .nav-cta{background:var(--blue);color:var(--white);border:none;padding:0.55rem 1.4rem;border-radius:50px;font-size:0.88rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background 0.2s;}
+    .nav-cta:hover{background:var(--blue-dark);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+    .hamburger span{width:24px;height:2px;background:var(--white);border-radius:2px;}
+
+    /* PAGE HERO */
+    .page-hero{background:var(--dark);padding:160px 5% 80px;text-align:center;position:relative;overflow:hidden;}
+    .page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(29,161,242,0.12) 0%,transparent 65%);}
+    .page-hero .badge{display:inline-block;background:rgba(29,161,242,0.15);border:1px solid rgba(29,161,242,0.3);color:var(--blue);padding:0.4rem 1.2rem;border-radius:50px;font-size:0.8rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1.5rem;}
+    .page-hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:800;color:var(--white);letter-spacing:-2px;margin-bottom:1rem;position:relative;}
+    .page-hero p{font-size:1.1rem;color:var(--gray);max-width:520px;margin:0 auto;line-height:1.7;position:relative;}
+
+    /* COMPARISON TABLE */
+    .compare{padding:80px 5%;background:var(--light-bg);}
+    .container{max-width:1100px;margin:0 auto;}
+    .section-label{display:inline-block;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--blue);margin-bottom:0.8rem;}
+    .section-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:var(--text);line-height:1.15;letter-spacing:-1px;margin-bottom:1rem;}
+    .section-center{text-align:center;}
+    .section-sub{font-size:1rem;color:#666;max-width:500px;line-height:1.7;margin-bottom:3rem;}
+    .section-center .section-sub{margin:0 auto 3rem;}
+    .compare-table{width:100%;border-collapse:collapse;border-radius:20px;overflow:hidden;box-shadow:0 4px 30px rgba(0,0,0,0.07);}
+    .compare-table th,.compare-table td{padding:1rem 1.4rem;text-align:center;font-size:0.9rem;}
+    .compare-table thead tr{background:var(--dark);}
+    .compare-table th{font-family:'Syne',sans-serif;font-weight:700;color:var(--white);font-size:0.95rem;}
+    .compare-table th:first-child{text-align:left;color:var(--gray);}
+    .compare-table th.blue{color:var(--blue);}
+    .compare-table th.green{color:var(--green);}
+    .compare-table th.gold{color:var(--gold);}
+    .compare-table tbody tr:nth-child(odd){background:var(--white);}
+    .compare-table tbody tr:nth-child(even){background:var(--light-bg);}
+    .compare-table td:first-child{text-align:left;font-weight:500;color:var(--text);}
+    .compare-table td.check-blue{color:var(--blue);font-weight:700;font-size:1.1rem;}
+    .compare-table td.check-green{color:var(--green);font-weight:700;font-size:1.1rem;}
+    .compare-table td.check-gold{color:var(--gold);font-weight:700;font-size:1.1rem;}
+    .compare-table td.cross{color:#ccc;font-size:1.1rem;}
+    .compare-table .price-row td{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;padding:1.4rem;}
+    .compare-table .price-row td.blue{color:var(--blue);}
+    .compare-table .price-row td.green{color:var(--green);}
+    .compare-table .price-row td.gold{color:var(--gold);}
+    .compare-table .btn-row td{padding:1.2rem 1.4rem;}
+    .compare-table .btn-row td a{display:inline-block;padding:0.6rem 1.6rem;border-radius:50px;font-size:0.85rem;font-weight:600;text-decoration:none;transition:all 0.2s;}
+    .compare-table .btn-row td a.blue{background:var(--blue);color:var(--white);}
+    .compare-table .btn-row td a.green{background:var(--green);color:var(--white);}
+    .compare-table .btn-row td a.gold{background:var(--gold);color:var(--white);}
+    .compare-table .btn-row td a:hover{opacity:0.85;transform:translateY(-2px);}
+
+    /* FULL PACKAGE DETAILS */
+    .pkg-detail{padding:80px 5%;}
+    .pkg-detail-card{border-radius:28px;padding:3rem;margin-bottom:3rem;border:1.5px solid #E8EDF3;background:var(--white);}
+    .pkg-detail-card.blue-card{border-color:rgba(29,161,242,0.25);background:linear-gradient(145deg,#f0f8fe,#ffffff);}
+    .pkg-detail-card.green-card{border-color:rgba(39,174,96,0.25);background:linear-gradient(145deg,#f0faf4,#ffffff);}
+    .pkg-detail-card.gold-card{border-color:rgba(212,160,23,0.25);background:linear-gradient(145deg,#fdf9ed,#ffffff);}
+    .pkg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
+    .pkg-header-left{display:flex;align-items:center;gap:1rem;}
+    .pkg-emoji{font-size:2.5rem;}
+    .pkg-title{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;}
+    .pkg-title.blue{color:var(--blue);}
+    .pkg-title.green{color:var(--green);}
+    .pkg-title.gold{color:var(--gold);}
+    .pkg-subtitle{font-size:0.9rem;color:#777;margin-top:0.2rem;}
+    .pkg-price-big{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--text);line-height:1;}
+    .pkg-price-big .period{font-size:1rem;font-weight:400;color:#999;}
+    .pkg-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;}
+    .pkg-col h4{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid #E8EDF3;}
+    .pkg-col h4.blue{border-color:var(--blue);color:var(--blue);}
+    .pkg-col h4.green{border-color:var(--green);color:var(--green);}
+    .pkg-col h4.gold{border-color:var(--gold);color:var(--gold);}
+    .feat-list{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+    .feat-list li{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9rem;color:#444;}
+    .feat-list li::before{content:'✓';font-weight:700;flex-shrink:0;margin-top:1px;}
+    .feat-list li.blue::before{color:var(--blue);}
+    .feat-list li.green::before{color:var(--green);}
+    .feat-list li.gold::before{color:var(--gold);}
+    .feat-list li.no::before{content:'✗';color:#ddd;}
+    .feat-list li.no{color:#bbb;}
+    .pkg-cta-row{margin-top:2rem;padding-top:2rem;border-top:1px solid #E8EDF3;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    .pkg-cta-row p{font-size:0.9rem;color:#666;}
+    .pkg-cta-btn{padding:0.8rem 2rem;border-radius:50px;font-size:0.95rem;font-weight:600;text-decoration:none;transition:all 0.25s;color:var(--white);}
+    .pkg-cta-btn.blue{background:var(--blue);}
+    .pkg-cta-btn.green{background:var(--green);}
+    .pkg-cta-btn.gold{background:var(--gold);}
+    .pkg-cta-btn:hover{opacity:0.88;transform:translateY(-2px);}
+
+    /* ADDONS */
+    .addons{padding:80px 5%;background:var(--light-bg);}
+    .addons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:2rem;}
+    .addon-item{background:var(--white);border:1px solid #E8EDF3;border-radius:16px;padding:1.5rem;transition:all 0.3s;}
+    .addon-item:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.07);}
+    .addon-icon{font-size:1.8rem;margin-bottom:0.8rem;}
+    .addon-item h4{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}
+    .addon-item p{font-size:0.82rem;color:#777;}
+
+    /* FOOTER */
+    footer{background:#08090C;padding:60px 5% 30px;border-top:1px solid rgba(255,255,255,0.06);}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+    .footer-brand p{color:var(--gray);font-size:0.9rem;line-height:1.7;margin:1rem 0;max-width:280px;}
+    .footer-socials{display:flex;gap:0.8rem;}
+    .social-btn{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;color:var(--white);text-decoration:none;transition:all 0.2s;}
+    .social-btn.fb{background:#1877F2;}
+    .social-btn.ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);}
+    .social-btn.wa{background:#25D366;}
+    .social-btn:hover{transform:translateY(-3px);}
+    .footer-col h4{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--white);margin-bottom:1.2rem;}
+    .footer-col a{display:block;color:var(--gray);font-size:0.875rem;text-decoration:none;margin-bottom:0.6rem;transition:color 0.2s;}
+    .footer-col a:hover{color:var(--white);}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+    .footer-bottom p{color:var(--gray);font-size:0.82rem;}
+
+    /* WA float */
+    .wa-float{position:fixed;bottom:28px;right:28px;z-index:999;width:58px;height:58px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(37,211,102,0.45);text-decoration:none;transition:all 0.3s;animation:waFloat 3s ease-in-out infinite;}
+    .wa-float:hover{transform:scale(1.1);}
+    .wa-float svg{width:30px;height:30px;fill:white;}
+    @keyframes waFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.16,1,0.3,1);}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .reveal-delay-1{transition-delay:0.1s;} .reveal-delay-2{transition-delay:0.2s;}
+
+    @media(max-width:900px){
+      .compare-table{display:block;overflow-x:auto;}
+      .pkg-body{grid-template-columns:1fr 1fr;}
+      .footer-grid{grid-template-columns:1fr 1fr;}
+    }
+    @media(max-width:640px){
+      .nav-links{display:none;flex-direction:column;position:fixed;top:72px;left:0;right:0;background:var(--dark2);padding:1.5rem 5%;gap:1rem;}
+      .nav-links.open{display:flex;}
+      .hamburger{display:flex;}
+      .pkg-body{grid-template-columns:1fr;}
+      .footer-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Byte<span>Social</span></div>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="packages.html" class="active">Packages</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html" class="nav-cta">Get Started</a>
+  </div>
+  <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="badge">Transparent Pricing</div>
+  <h1>Our Packages</h1>
+  <p>Three clear packages. No hidden fees. Just consistent, professional social media management for your business.</p>
+</div>
+
+<!-- COMPARISON TABLE -->
+<section class="compare">
+  <div class="container">
+    <div class="section-center">
+      <span class="section-label reveal">Compare</span>
+      <h2 class="section-title reveal reveal-delay-1">Side-by-Side Comparison</h2>
+      <p class="section-sub reveal reveal-delay-2">See exactly what each package includes at a glance.</p>
+    </div>
+    <div class="reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="blue">⭐ Starter</th>
+            <th class="green">🚀 Growth</th>
+            <th class="gold">👑 Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="price-row">
+            <td>Price / Month</td>
+            <td class="blue">$100–$200</td>
+            <td class="green">Ksh 8,000</td>
+            <td class="gold">Ksh 15,000</td>
+          </tr>
+          <tr><td>Platforms</td><td>1</td><td>2</td><td>3</td></tr>
+          <tr><td>Posts / Month</td><td>8</td><td>12</td><td>20</td></tr>
+          <tr><td>Stories / Month</td><td>1</td><td>3</td><td>3 / week</td></tr>
+          <tr><td>Reels / Month</td><td class="cross">✗</td><td>2</td><td>3</td></tr>
+          <tr><td>Scheduling & Publishing</td><td class="check-blue">✓</td><td class="check-green">✓</td><td class="check-gold">✓</td></tr>
+          <tr><td>Branded Graphics</td><td class="check-blue">✓</td><td class="check-green">✓</td><td class="check-gold">✓</td></tr>
+          <tr><td>Caption Writing</td><td class="check-blue">✓</td><td class="check-green">✓</td><td class="check-gold">✓</td></tr>
+          <tr><td>Hashtag Strategy</td><td>Basic</td><td>Advanced</td><td>Advanced</td></tr>
+          <tr><td>Comment Management</td><td class="check-blue">✓</td><td class="check-green">✓</td><td class="check-gold">✓</td></tr>
+          <tr><td>DM Management</td><td class="cross">✗</td><td class="check-green">✓</td><td class="check-gold">✓</td></tr>
+          <tr><td>Monthly Report</td><td class="cross">✗</td><td class="cross">✗</td><td class="check-gold">✓</td></tr>
+          <tr><td>Strategy Call</td><td class="cross">✗</td><td class="cross">✗</td><td>30 min</td></tr>
+          <tr><td>Revisions / Batch</td><td>2 rounds</td><td>2 rounds</td><td>3 rounds</td></tr>
+          <tr><td>Response Time</td><td>24 hours</td><td>24 hours</td><td>2 hours</td></tr>
+          <tr class="btn-row">
+            <td></td>
+            <td><a href="contact.html" class="blue">Get Starter</a></td>
+            <td><a href="contact.html" class="green">Get Growth</a></td>
+            <td><a href="contact.html" class="gold">Get Premium</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FULL PACKAGE DETAILS -->
+<section class="pkg-detail">
+  <div class="container">
+    <div class="section-center" style="margin-bottom:3rem;">
+      <span class="section-label reveal">Full Details</span>
+      <h2 class="section-title reveal reveal-delay-1">Everything You Get</h2>
+    </div>
+
+    <!-- STARTER -->
+    <div class="pkg-detail-card blue-card reveal">
+      <div class="pkg-header">
+        <div class="pkg-header-left">
+          <div class="pkg-emoji">⭐</div>
+          <div>
+            <div class="pkg-title blue">Starter Package</div>
+            <div class="pkg-subtitle">Perfect for businesses just getting started</div>
+          </div>
+        </div>
+        <div class="pkg-price-big">$100–$200 <span class="period">/ month</span></div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-col">
+          <h4 class="blue">Content & Publishing</h4>
+          <ul class="feat-list">
+            <li class="blue">8 posts per month</li>
+            <li class="blue">1 Story per month</li>
+            <li class="blue">Optimal posting times</li>
+            <li class="blue">Content scheduled in advance</li>
+            <li class="blue">1 platform managed</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="blue">Content Creation</h4>
+          <ul class="feat-list">
+            <li class="blue">Branded graphics designed</li>
+            <li class="blue">Captions written per post</li>
+            <li class="blue">Relevant hashtags added</li>
+            <li class="blue">Client + created content mix</li>
+            <li class="blue">1 story frame design</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="blue">Community</h4>
+          <ul class="feat-list">
+            <li class="blue">Post comments replied to</li>
+            <li class="blue">Follower engagement</li>
+            <li class="blue">Negative comment handling</li>
+            <li class="no">DM management</li>
+            <li class="no">Monthly report</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="blue">Terms</h4>
+          <ul class="feat-list">
+            <li class="blue">2 revision rounds / batch</li>
+            <li class="blue">48hr content approval window</li>
+            <li class="blue">Month-to-month contract</li>
+            <li class="blue">14 days cancellation notice</li>
+            <li class="blue">Response within 24 hours</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pkg-cta-row">
+        <p>Ideal for: Real estate agents, solo salon owners, small electronics shops</p>
+        <a href="contact.html" class="pkg-cta-btn blue">Choose Starter →</a>
+      </div>
+    </div>
+
+    <!-- GROWTH -->
+    <div class="pkg-detail-card green-card reveal">
+      <div class="pkg-header">
+        <div class="pkg-header-left">
+          <div class="pkg-emoji">🚀</div>
+          <div>
+            <div class="pkg-title green">Growth Package</div>
+            <div class="pkg-subtitle">Most popular — for businesses ready to scale</div>
+          </div>
+        </div>
+        <div class="pkg-price-big">Ksh 8,000 <span class="period">/ month</span></div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-col">
+          <h4 class="green">Content & Publishing</h4>
+          <ul class="feat-list">
+            <li class="green">12 posts per month</li>
+            <li class="green">3 Stories per month</li>
+            <li class="green">2 Reels per month</li>
+            <li class="green">2 platforms managed</li>
+            <li class="green">Optimal posting times</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="green">Content Creation</h4>
+          <ul class="feat-list">
+            <li class="green">Branded graphics designed</li>
+            <li class="green">Captions written per post</li>
+            <li class="green">Advanced hashtag strategy</li>
+            <li class="green">Reel scripting + basic editing</li>
+            <li class="green">Story frame designs</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="green">Community</h4>
+          <ul class="feat-list">
+            <li class="green">All comments replied to</li>
+            <li class="green">DMs answered (30/week)</li>
+            <li class="green">Follower engagement daily</li>
+            <li class="green">Negative review handling</li>
+            <li class="no">Monthly report</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="green">Terms</h4>
+          <ul class="feat-list">
+            <li class="green">2 revision rounds / batch</li>
+            <li class="green">48hr content approval window</li>
+            <li class="green">Month-to-month contract</li>
+            <li class="green">14 days cancellation notice</li>
+            <li class="green">Response within 24 hours</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pkg-cta-row">
+        <p>Ideal for: Growing salons, estate agencies, electronics shops with active pages</p>
+        <a href="contact.html" class="pkg-cta-btn green">Choose Growth →</a>
+      </div>
+    </div>
+
+    <!-- PREMIUM -->
+    <div class="pkg-detail-card gold-card reveal">
+      <div class="pkg-header">
+        <div class="pkg-header-left">
+          <div class="pkg-emoji">👑</div>
+          <div>
+            <div class="pkg-title gold">Premium Package</div>
+            <div class="pkg-subtitle">Full-service social media, done completely for you</div>
+          </div>
+        </div>
+        <div class="pkg-price-big">Ksh 15,000 <span class="period">/ month</span></div>
+      </div>
+      <div class="pkg-body">
+        <div class="pkg-col">
+          <h4 class="gold">Content & Publishing</h4>
+          <ul class="feat-list">
+            <li class="gold">20 posts per month</li>
+            <li class="gold">3 Stories per week (12/month)</li>
+            <li class="gold">3 Reels per month</li>
+            <li class="gold">3 platforms managed</li>
+            <li class="gold">Daily content queue</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="gold">Content Creation</h4>
+          <ul class="feat-list">
+            <li class="gold">Full branded graphics</li>
+            <li class="gold">Captions + copywriting</li>
+            <li class="gold">Reel scripting + editing</li>
+            <li class="gold">Story frames + highlights</li>
+            <li class="gold">Promotional post design</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="gold">Community & Strategy</h4>
+          <ul class="feat-list">
+            <li class="gold">All comments + DMs handled</li>
+            <li class="gold">Priority 2-hour response</li>
+            <li class="gold">Monthly performance report</li>
+            <li class="gold">Monthly strategy call (30 min)</li>
+            <li class="gold">Follower growth tracking</li>
+          </ul>
+        </div>
+        <div class="pkg-col">
+          <h4 class="gold">Terms</h4>
+          <ul class="feat-list">
+            <li class="gold">3 revision rounds / batch</li>
+            <li class="gold">48hr approval window</li>
+            <li class="gold">Month-to-month contract</li>
+            <li class="gold">30 days cancellation notice</li>
+            <li class="gold">Priority WhatsApp support</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pkg-cta-row">
+        <p>Ideal for: Established businesses, agencies, brands wanting full social media management</p>
+        <a href="contact.html" class="pkg-cta-btn gold">Choose Premium →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="addons">
+  <div class="container">
+    <div class="section-center">
+      <span class="section-label reveal">Extras</span>
+      <h2 class="section-title reveal reveal-delay-1">Available Add-Ons</h2>
+      <p class="section-sub reveal reveal-delay-2" style="margin:0 auto 0;">Add any of these to your package at any time.</p>
+    </div>
+    <div class="addons-grid reveal">
+      <div class="addon-item"><div class="addon-icon">📢</div><h4>Paid Ads Management</h4><p>Facebook & Instagram campaign setup, targeting & monitoring.</p></div>
+      <div class="addon-item"><div class="addon-icon">🎬</div><h4>Reel Production</h4><p>Full video scripting, filming direction & professional editing.</p></div>
+      <div class="addon-item"><div class="addon-icon">🌟</div><h4>Influencer Outreach</h4><p>Research, contact & coordinate with relevant influencers.</p></div>
+      <div class="addon-item"><div class="addon-icon">📧</div><h4>Email Newsletter</h4><p>Monthly email newsletter creation and distribution.</p></div>
+      <div class="addon-item"><div class="addon-icon">📊</div><h4>Competitor Analysis</h4><p>Deep dive into up to 5 competitors and actionable insights.</p></div>
+      <div class="addon-item"><div class="addon-icon">🔍</div><h4>Profile Audit & Optimisation</h4><p>Full review and redesign of your social media profiles.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo" style="font-size:1.3rem">Byte<span style="color:var(--blue)">Social</span></div>
+        <p>Social media management for real estate, salons, spas, and electronics shops.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn fb">f</a>
+          <a href="#" class="social-btn ig">ig</a>
+          <a href="https://wa.me/254700000000" class="social-btn wa">W</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Pages</h4>
+        <a href="index.html">Home</a>
+        <a href="packages.html">Packages</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@bytesocial.com">hello@bytesocial.com</a>
+        <a href="https://wa.me/254700000000">WhatsApp Us</a>
+        <a href="#">@bytesocial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Byte Social. All rights reserved.</p>
+      <p>Designed for businesses that want to grow.</p>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/254700000000?text=Hi%20Byte%20Social!%20I%27m%20interested%20in%20your%20packages." class="wa-float" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.549 4.122 1.509 5.858L.057 23.571a.5.5 0 00.611.612l5.794-1.479A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.5-5.24-1.376l-.376-.218-3.893.993.985-3.808-.234-.388A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</a>
+
+<script>
+  function toggleNav(){document.getElementById('navLinks').classList.toggle('open');}
+  const reveals=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(e=>{e.forEach(r=>{if(r.isIntersecting)r.target.classList.add('visible');});},{threshold:0.1});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
